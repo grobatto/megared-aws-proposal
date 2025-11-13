@@ -47,7 +47,7 @@
 | BI Tool | $0<br>**Ya tienen QuickSight** | $0<br>**Ya tienen QuickSight** | $50/mes<br>**Migrar a Power BI** | AWS -$50 |
 | **TOTAL** | **$202/mes** | **$112/mes** | **$952/mes** | **AWS ahorra 77-88%** |
 
-**💡 NOTA CRÍTICA - ON-DEMAND "PAGAR POR USO"**:
+**NOTA CRÍTICA - ON-DEMAND "PAGAR POR USO"**:
 - **AWS Redshift Pause/Resume**: Cuando pausan el cluster, **NO pagan compute** ($0/hora). Solo pagan backup storage (centavos).
 - **Facturación por segundo**: Cobran desde que lo encienden hasta que lo pausan (precisión al segundo).
 - **Ejemplo uso real MEGARED**:
@@ -66,7 +66,7 @@
 | BI Tool | $0 (QuickSight existente) | $0 (QuickSight existente) | $50/mes (Power BI) |
 | **TOTAL** | **$208/mes** | **$145/mes** | **$958/mes** |
 
-**💡 COMPARACIÓN 24/7**:
+**COMPARACIÓN 24/7**:
 - **On-Demand 24/7**: $208/mes - Máxima flexibilidad, sin compromiso
 - **Reserved 1-año**: $145/mes - Ahorro $63/mes ($756/año) si saben que usarán 24/7
 - **On-Demand con Pause** (recomendado): $118/mes - Solo pagan 12hrs/día = **mejor opción**
@@ -79,9 +79,9 @@
 | Actual (56.2GB) | $7,272 | $5,220 | **$4,032** | $34,272 | **$27,000 - $30,240** |
 | Con crecimiento (100GB + 24/7) | $7,488 | $5,220 | $4,248 | $34,488 | **$27,000 - $30,240** |
 
-**💰 COMPARACIÓN DE OPCIONES AWS**:
+**COMPARACIÓN DE OPCIONES AWS**:
 
-1. **On-Demand con Pause/Resume** 👈 **RECOMENDADO**
+1. **On-Demand con Pause/Resume** **RECOMENDADO**
    - Costo: $112-118/mes ($4,032-4,248 en 3 años)
    - Ahorro vs Azure: **$30,240** (88%)
    - Mejor para: Empresas sin departamento técnico 24/7 (caso MEGARED)
@@ -99,7 +99,7 @@
    - Mejor para: Testing inicial, flexibilidad máxima
    - Nota: Mismo costo que Reserved pero sin compromiso
 
-**✅ RECOMENDACIÓN FINAL PARA MEGARED**:
+**RECOMENDACIÓN FINAL PARA MEGARED**:
 Comenzar con **AWS On-Demand + Pause/Resume**:
 - **Ahorro garantizado: $30,240 en 3 años** (88% vs Azure)
 - **Cero compromiso contractual**: Pueden pausar cuando quieran
@@ -107,7 +107,7 @@ Comenzar con **AWS On-Demand + Pause/Resume**:
 - **Costo mensual: $112-118** vs $958 Azure = **8.1x más económico**
 - **Opción futura**: Si después ven que lo usan 24/7, pueden migrar a Reserved para ahorrar $63/mes adicionales
 
-### 🔗 Links Oficiales de Verificación de Precios
+### Links Oficiales de Verificación de Precios
 
 **AWS Pricing (US East Regions - Noviembre 2025)**:
 - **Redshift dc2.large**: https://aws.amazon.com/redshift/pricing/
@@ -206,10 +206,10 @@ rs_upsert_table(df,
 ```
 
 **Fuentes Verificadas** (Nov 2025):
-- ✅ AWS Blog oficial: "Connecting R with Amazon Redshift"
-- ✅ Progress DataDirect Tutorial
-- ✅ Posit (RStudio) Professional Drivers
-- ✅ Paquetes R en CRAN: RJDBC, RPostgres, DBI, odbc
+- AWS Blog oficial: "Connecting R with Amazon Redshift"
+- Progress DataDirect Tutorial
+- Posit (RStudio) Professional Drivers
+- Paquetes R en CRAN: RJDBC, RPostgres, DBI, odbc
 
 **Conclusión para MEGARED**: Los 4-5 usuarios de BI pueden seguir usando sus scripts de R sin modificación, conectándose a Redshift igual que lo harían a PostgreSQL.
 
@@ -254,19 +254,19 @@ graph LR
 ```
 
 **COSTOS MENSUALES**:
-- 💰 **Recomendado** (Pause/Resume): $112/mes
-- 💰 **24/7**: $202/mes
-- 💰 **Azure alternativa**: $952/mes
-- ✅ **Ahorro AWS vs Azure**: 77-88% ($840/mes)
+- **Recomendado** (Pause/Resume): $112/mes
+- **24/7**: $202/mes
+- **Azure alternativa**: $952/mes
+- **Ahorro AWS vs Azure**: 77-88% ($840/mes)
 
 **BENEFICIOS CLAVE**:
-- ✅ Queries retail: <5 segundos (vs horas actuales)
-- ✅ Sin riesgo operacional en bases productivas
-- ✅ Análisis histórico completo (3+ años)
-- ✅ Escalable a 100GB, 500GB sin rediseño
-- ✅ Backup automático diario
-- ✅ QuickSight + R sin cambios (cero curva aprendizaje)
-- ✅ Ahorro vs Azure: $30,240 en 3 años (88%)
+- Queries retail: <5 segundos (vs horas actuales)
+- Sin riesgo operacional en bases productivas
+- Análisis histórico completo (3+ años)
+- Escalable a 100GB, 500GB sin rediseño
+- Backup automático diario
+- QuickSight + R sin cambios (cero curva aprendizaje)
+- Ahorro vs Azure: $30,240 en 3 años (88%)
 
 ### Flujo de Datos Detallado
 
@@ -308,10 +308,10 @@ graph LR
   - Costo real: $0.25 × 264hrs = **$66/mes Redshift** (vs $870 Azure)
 
 ### 2. Sin Migración de BI Tools
-- ✅ **QuickSight ya lo tienen**: Inversión protegida
-- ✅ **R ya lo usan**: Scripts funcionan sin cambios
-- ✅ **4-5 usuarios**: Sin curva de aprendizaje
-- ❌ **Azure**: Requiere migrar a Power BI ($600/año + tiempo + frustración)
+- **QuickSight ya lo tienen**: Inversión protegida
+- **R ya lo usan**: Scripts funcionan sin cambios
+- **4-5 usuarios**: Sin curva de aprendizaje
+- **Azure**: Requiere migrar a Power BI ($600/año + tiempo + frustración)
 
 ### 3. Performance Retail Optimizado
 Redshift está optimizado para queries analíticos de retail:
@@ -341,17 +341,17 @@ Azure Synapse tier mínimo (DW100c) está **sobredimensionado** para 50GB.
 
 ---
 
-## 📊 COMPARACIÓN TÉCNICA DETALLADA
+## COMPARACIÓN TÉCNICA DETALLADA
 
 | Característica | AWS Redshift | Azure Synapse | Ganador |
 |----------------|--------------|---------------|---------|
-| **Costo mensual** | $180-202 | $870-952 | ✅ AWS (4.8x) |
-| **Almacenamiento incluido** | 160GB SSD | ~100GB | ✅ AWS |
-| **Performance queries** | <5 seg (columnar MPP) | 10-30 seg (DW100c) | ✅ AWS |
-| **ETL cost** | $20/mes (Glue) | $30/mes (ADF) | ✅ AWS |
-| **BI tool compatibility** | QuickSight nativo | Power BI nativo | ✅ AWS (ya lo tienen) |
-| **R connectivity** | RJDBC, RPostgres (4 métodos) | ODBC (1 método) | ✅ AWS |
-| **Escalabilidad horizontal** | Agregar nodos (lineal) | Aumentar DWUs (caro) | ✅ AWS |
+| **Costo mensual** | $180-202 | $870-952 | AWS (4.8x) |
+| **Almacenamiento incluido** | 160GB SSD | ~100GB | AWS |
+| **Performance queries** | <5 seg (columnar MPP) | 10-30 seg (DW100c) | AWS |
+| **ETL cost** | $20/mes (Glue) | $30/mes (ADF) | AWS |
+| **BI tool compatibility** | QuickSight nativo | Power BI nativo | AWS (ya lo tienen) |
+| **R connectivity** | RJDBC, RPostgres (4 métodos) | ODBC (1 método) | AWS |
+| **Escalabilidad horizontal** | Agregar nodos (lineal) | Aumentar DWUs (caro) | AWS |
 | **Backup automático** | Incluido (S3) | Incluido (ADLS) | Empate |
 | **Pay-as-you-go** | Sí (pause/resume) | Sí (pause/resume) | Empate |
 | **Latencia a on-premise** | ~50ms (VPN) | ~50ms (VPN) | Empate |
@@ -360,7 +360,7 @@ Azure Synapse tier mínimo (DW100c) está **sobredimensionado** para 50GB.
 
 ---
 
-## 🎯 PRECIOS VERIFICADOS (Noviembre 2025)
+## PRECIOS VERIFICADOS (Noviembre 2025)
 
 ### AWS Pricing (US East Regions)
 
@@ -386,7 +386,7 @@ Azure Synapse tier mínimo (DW100c) está **sobredimensionado** para 50GB.
 | **Power BI Pro** | Migración requerida | $9.99/usuario | 5 usuarios | $50 | [powerbi.microsoft.com/pricing](https://powerbi.microsoft.com/pricing/) |
 | **TOTAL AZURE** | | | | **$952** | [Azure Calculator](https://azure.microsoft.com/pricing/calculator/) |
 
-**💡 Nota sobre precios**: Los valores están redondeados para facilitar la comparación. Cálculos exactos: Redshift $182.50/mes ($0.25×730hrs), Glue $19.80/mes, S3 $1.15/mes, Azure Synapse $876/mes ($1.20×730hrs), Power BI $49.95/mes. Para precisión al centavo, consultar las calculadoras oficiales de AWS y Azure.
+**Nota sobre precios**: Los valores están redondeados para facilitar la comparación. Cálculos exactos: Redshift $182.50/mes ($0.25×730hrs), Glue $19.80/mes, S3 $1.15/mes, Azure Synapse $876/mes ($1.20×730hrs), Power BI $49.95/mes. Para precisión al centavo, consultar las calculadoras oficiales de AWS y Azure.
 
 **⚠️ Costo Oculto Azure**: Migrar de QuickSight a Power BI implica:
 - $600/año en licencias
@@ -395,7 +395,7 @@ Azure Synapse tier mínimo (DW100c) está **sobredimensionado** para 50GB.
 
 ---
 
-## ✅ RECOMENDACIÓN FINAL
+## RECOMENDACIÓN FINAL
 
 ### Para MEGARED, recomendamos AWS On-Demand por:
 
@@ -421,7 +421,7 @@ Azure Synapse tier mínimo (DW100c) está **sobredimensionado** para 50GB.
 
 ---
 
-## 📞 CONTACTO
+## CONTACTO
 
 **INCO Soluciones - AWS Advanced Partner**
 
@@ -439,7 +439,7 @@ José P.
 
 ---
 
-## 📎 ANEXOS
+## ANEXOS
 
 ### Anexo A: Links Oficiales de Verificación
 
