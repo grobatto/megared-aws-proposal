@@ -220,81 +220,44 @@ rs_upsert_table(df,
 ### Diagrama Arquitectura AWS Propuesto
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#FF9900','primaryTextColor':'#232F3E','primaryBorderColor':'#232F3E','lineColor':'#545B64','secondaryColor':'#146EB4','tertiaryColor':'#EEEEEE'}}}%%
-graph TD
-    subgraph ONPREM["🏢 ON-PREMISE (Sin cambios)"]
-        direction TB
-        SQL["📊 SQL Server<br/>48.7GB<br/>Ventas, productos, clientes"]
-        MYSQL["📊 MySQL<br/>7.5GB<br/>Cobranzas, facturación"]
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#ffffff','primaryTextColor':'#232F3E','primaryBorderColor':'#232F3E','lineColor':'#FF9900','fontSize':'14px'}}}%%
+graph LR
+    subgraph ON["ON-PREMISE"]
+        DB1[("SQL Server<br/>48.7GB")]
+        DB2[("MySQL<br/>7.5GB")]
     end
 
-    subgraph AWS["☁️ AWS CLOUD"]
-        direction TB
-
-        subgraph ETL["🔄 AWS GLUE - ETL"]
-            GLUE["• Conexión ODBC a on-prem<br/>• Extracción incremental<br/>• Limpieza y transformación<br/>• Scheduler automático<br/><b>💰 Costo: $20/mes</b>"]
-        end
-
-        subgraph STORAGE["💾 Amazon S3 - Staging/Backup"]
-            S3["• 56GB raw + procesados<br/>• Backup automático<br/>• Formato Parquet comprimido<br/><b>💰 Costo: $2/mes</b>"]
-        end
-
-        subgraph DW["🗄️ AMAZON REDSHIFT - Data Warehouse"]
-            REDSHIFT["• 1 nodo dc2.large (160GB, 4 vCPU)<br/>• Queries &lt;5 segundos<br/>• 3+ años histórico<br/>• Compatible PostgreSQL<br/><b>💰 On-Demand 24/7: $180/mes</b><br/><b>💰 Con Pause/Resume: $90/mes</b><br/><br/>⏸️ <i>Pause/Resume automático:</i><br/><i>$0/hora cuando está pausado</i>"]
-        end
-    end
-
-    subgraph BI["📈 BI TOOLS (Ya existentes - Sin cambios)"]
-        direction TB
-        QS["🔍 QuickSight + R<br/>• 4-5 usuarios BI<br/>• Dashboards actuales funcionan<br/>• Scripts R compatibles:<br/>  - RJDBC<br/>  - RPostgres<br/>  - ODBC<br/>  - redshiftTools<br/><b>💰 Costo: $0 (ya lo tienen)</b>"]
-    end
-
-    subgraph SEC["🔒 SEGURIDAD"]
+    subgraph AWS["AWS CLOUD"]
         direction LR
-        VPN["🔐 VPN/VPC<br/>Conexión cifrada"]
-        ENC["🔐 Encryption<br/>At-rest & in-transit"]
+        GLUE["AWS Glue<br/>ETL<br/><b>$20/mes</b>"]
+        S3[("S3<br/>Staging<br/><b>$2/mes</b>")]
+        RS[("Redshift<br/>dc2.large<br/><b>$90-180/mes</b>")]
     end
 
-    SQL -->|"ODBC/JDBC<br/>2-3x/día"| GLUE
-    MYSQL -->|"ODBC/JDBC<br/>2-3x/día"| GLUE
-    GLUE -->|"Datos limpios<br/>Parquet"| S3
-    S3 -->|"COPY command<br/>Paralelo"| REDSHIFT
-    REDSHIFT -->|"JDBC/PostgreSQL<br/>Protocol"| QS
-
-    ONPREM -.->|"Via"| VPN
-    VPN -.->|"Secure"| AWS
-    AWS -.->|"Protected by"| ENC
-
-    subgraph COSTS["💵 RESUMEN DE COSTOS MENSUALES"]
-        direction TB
-        COST_OPT["<b>OPCIÓN RECOMENDADA - On-Demand + Pause/Resume</b><br/>Redshift (12hrs/día): $90<br/>Glue ETL: $20<br/>S3 Storage: $2<br/><b>TOTAL: $112/mes</b><br/><br/><b>OPCIÓN CONSERVADORA - 24/7</b><br/>Redshift (24/7): $180<br/>Glue ETL: $20<br/>S3 Storage: $2<br/><b>TOTAL: $202/mes</b><br/><br/><b>OPCIÓN RESERVED - 1 año</b><br/>Redshift Reserved: $117<br/>Glue ETL: $25<br/>S3 Storage: $3<br/><b>TOTAL: $145/mes</b>"]
+    subgraph TOOLS["BI EXISTENTE"]
+        QS["QuickSight + R<br/><b>$0/mes</b>"]
     end
 
-    subgraph BENEFITS["✅ BENEFICIOS CLAVE"]
-        direction TB
-        BEN["✅ Queries retail: &lt;5 segundos (vs horas)<br/>✅ Sin riesgo en bases productivas<br/>✅ Análisis histórico completo (3+ años)<br/>✅ Escalable a 100GB, 500GB sin rediseño<br/>✅ Backup automático diario<br/>✅ QuickSight + R sin cambios<br/>✅ Ahorro vs Azure: $30,240 en 3 años (88%)"]
-    end
+    DB1 -->|"2-3x/día"| GLUE
+    DB2 -->|"2-3x/día"| GLUE
+    GLUE --> S3
+    S3 --> RS
+    RS --> QS
 
-    subgraph COMP["📊 AWS vs AZURE"]
-        direction TB
-        COMPARE["<b>AWS (Recomendado)</b><br/>$112-202/mes<br/><br/><b>Azure Synapse</b><br/>$952/mes<br/><br/><b>Ahorro AWS: 77-88%</b>"]
-    end
+    classDef onprem fill:#f0f0f0,stroke:#555,stroke-width:2px,color:#000
+    classDef aws fill:#FFF4E6,stroke:#FF9900,stroke-width:2px,color:#000
+    classDef bi fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px,color:#000
 
-    classDef onpremStyle fill:#E7F3FF,stroke:#0066CC,stroke-width:2px,color:#000
-    classDef awsStyle fill:#FFF4E6,stroke:#FF9900,stroke-width:3px,color:#000
-    classDef biStyle fill:#E8F5E9,stroke:#4CAF50,stroke-width:2px,color:#000
-    classDef secStyle fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
-    classDef costStyle fill:#FFEBEE,stroke:#D32F2F,stroke-width:3px,color:#000,font-weight:bold
-    classDef benefitStyle fill:#E8F5E9,stroke:#388E3C,stroke-width:2px,color:#000
-
-    class ONPREM,SQL,MYSQL onpremStyle
-    class AWS,ETL,STORAGE,DW,GLUE,S3,REDSHIFT awsStyle
-    class BI,QS biStyle
-    class SEC,VPN,ENC secStyle
-    class COSTS,COST_OPT costStyle
-    class BENEFITS,BEN benefitStyle
-    class COMP,COMPARE costStyle
+    class DB1,DB2 onprem
+    class GLUE,S3,RS aws
+    class QS bi
 ```
+
+**COSTOS MENSUALES**:
+- 💰 **Recomendado** (Pause/Resume): $112/mes
+- 💰 **24/7**: $202/mes
+- 💰 **Azure alternativa**: $952/mes
+- ✅ **Ahorro AWS vs Azure**: 77-88% ($840/mes)
 
 **BENEFICIOS CLAVE**:
 - ✅ Queries retail: <5 segundos (vs horas actuales)
