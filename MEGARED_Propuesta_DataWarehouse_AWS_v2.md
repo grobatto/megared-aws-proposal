@@ -141,77 +141,34 @@ Comenzar con **AWS On-Demand + Pause/Resume**:
 
 ---
 
-## INTEGRACIÓN R + REDSHIFT: RESPUESTA DEFINITIVA
+## INTEGRACIÓN R + REDSHIFT
 
 ### ¿Se puede conectar R a Redshift? **SÍ, 100% CONFIRMADO**
 
 Durante la reunión, Richard Peters preguntó: *"¿se puede conectar a este, al Redshift o o no?"*
 
-**Respuesta**: Sí, R se conecta perfectamente a Redshift mediante múltiples métodos verificados:
+**Respuesta**: Sí, R se conecta perfectamente a Redshift mediante 4 métodos verificados:
 
-#### Método 1: RJDBC (Recomendado por AWS)
-```r
-library(RJDBC)
+1. **RJDBC** (Recomendado por AWS)
+2. **RPostgres** (Compatible con protocolo PostgreSQL)
+3. **ODBC** (Estándar de conexión)
+4. **redshiftTools** (Para operaciones masivas)
 
-# Driver JDBC de Redshift
-drv <- JDBC("com.amazon.redshift.jdbc42.Driver",
-            "path/to/redshift-jdbc42-2.1.jar")
-
-# Conexión
-conn <- dbConnect(drv,
-                  "jdbc:redshift://cluster.region.redshift.amazonaws.com:5439/database",
-                  "user", "password")
-
-# Queries
-data <- dbGetQuery(conn, "SELECT * FROM ventas WHERE fecha >= '2024-01-01'")
-```
-
-#### Método 2: RPostgres (Más Eficiente)
+**Ejemplo de conexión simple**:
 ```r
 library(RPostgres)
-
-# Redshift es compatible con protocolo PostgreSQL
 conn <- dbConnect(RPostgres::Postgres(),
-                  host = "cluster.region.redshift.amazonaws.com",
+                  host = "redshift-cluster.region.amazonaws.com",
                   port = 5439,
-                  user = "user",
-                  password = "password",
-                  dbname = "database",
-                  sslmode = 'require')
+                  dbname = "warehouse",
+                  user = "usuario",
+                  password = "contraseña")
+
+# Consulta de ejemplo
+ventas <- dbGetQuery(conn, "SELECT * FROM ventas WHERE fecha >= '2024-01-01'")
 ```
 
-#### Método 3: ODBC
-```r
-library(odbc)
-library(DBI)
-
-conn <- dbConnect(odbc::odbc(),
-                  Driver = "Amazon Redshift (x64)",
-                  Server = "cluster.region.redshift.amazonaws.com",
-                  Database = "database",
-                  UID = "user",
-                  PWD = "password",
-                  Port = 5439)
-```
-
-#### Método 4: redshiftTools (Para Operaciones Masivas)
-```r
-library(redshiftTools)
-
-# Bulk upload desde R a Redshift
-rs_upsert_table(df,
-                dbcon = conn,
-                tableName = "mi_tabla",
-                keys = c("id"))
-```
-
-**Fuentes Verificadas** (Nov 2025):
-- AWS Blog oficial: "Connecting R with Amazon Redshift"
-- Progress DataDirect Tutorial
-- Posit (RStudio) Professional Drivers
-- Paquetes R en CRAN: RJDBC, RPostgres, DBI, odbc
-
-**Conclusión para MEGARED**: Los 4-5 usuarios de BI pueden seguir usando sus scripts de R sin modificación, conectándose a Redshift igual que lo harían a PostgreSQL.
+**Conclusión**: Los 4-5 usuarios de BI pueden seguir usando sus scripts de R sin modificación, conectándose a Redshift igual que a PostgreSQL.
 
 ---
 
